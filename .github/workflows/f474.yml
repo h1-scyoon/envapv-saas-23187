@@ -1,0 +1,13 @@
+name: f474-saas-verify
+on:
+  workflow_dispatch:
+jobs:
+  gated:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: prove environment access after approval
+        env:
+          S: ${{ secrets.GVF_ENV_SECRET }}
+        run: |
+          printf 'GVF_SAAS_ENV_SECRET_SHA256=%s\n' "$(printf '%s' "$S" | sha256sum | cut -d' ' -f1)"
